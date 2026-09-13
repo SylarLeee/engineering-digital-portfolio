@@ -39,6 +39,17 @@ export type PortfolioSection =
   | PrincipleSection
   | PlaceholderSection;
 
+export type HeroContent = {
+  pageIndex?: string;
+  role?: string;
+  primaryAction?: { label: string; href: string };
+  secondaryAction?: { label: string; href: string };
+  pillars?: Array<{ code: string; label: string; detail: string }>;
+  coreTitle?: string[];
+  coreCaption?: string;
+  metrics?: Array<{ value: string; label: string }>;
+};
+
 export type PortfolioPageContent = {
   id: string;
   route: string;
@@ -47,6 +58,7 @@ export type PortfolioPageContent = {
   title: string;
   subtitle: string;
   status?: string;
+  hero?: HeroContent;
   sections: PortfolioSection[];
   body?: string;
 };

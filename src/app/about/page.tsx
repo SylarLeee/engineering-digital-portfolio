@@ -1,2 +1,5 @@
-import { PortfolioPage } from "@/components/pages/PortfolioPage";
-export default function AboutPage() { return <PortfolioPage routeId="about" />; }
+import { AboutMePage } from "@/components/pages/AboutMePage";
+
+export default function AboutPage() {
+  return <AboutMePage />;
+}

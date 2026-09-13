@@ -14,7 +14,7 @@ export function Footer() {
           <Link href="/summary">总结</Link>
           <Link href="/contact">联系</Link>
         </div>
-        <p className="footer-meta">Portfolio Engine V2.0 · Phase 1 System</p>
+        <p className="footer-meta">Engineering Digital Product Portfolio · 2026</p>
       </Container>
     </footer>
   );

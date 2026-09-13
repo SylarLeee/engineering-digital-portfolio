@@ -1,2 +1,5 @@
-import { PortfolioPage } from "@/components/pages/PortfolioPage";
-export default function BackgroundPage() { return <PortfolioPage routeId="background" />; }
+import { EngineeringBackgroundPage } from "@/components/pages/EngineeringBackgroundPage";
+
+export default function BackgroundPage() {
+  return <EngineeringBackgroundPage />;
+}

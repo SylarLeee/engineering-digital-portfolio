@@ -1,5 +1,5 @@
-import { PortfolioPage } from "@/components/pages/PortfolioPage";
+import { CoverPage } from "@/components/pages/CoverPage";
 
 export default function Home() {
-  return <PortfolioPage routeId="home" />;
+  return <CoverPage />;
 }

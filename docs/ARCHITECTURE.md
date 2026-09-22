@@ -1,6 +1,6 @@
 # Engineering Digital Portfolio V2.0 — Phase 1 架构与交付状态
 
-> 更新日期：2026-09-13  
+> 更新日期：2026-09-17  
 > 状态依据：当前本地源码  
 > 项目阶段：Phase 1 进行中，约 60% 页面开发完成
 
@@ -35,6 +35,12 @@
   └── 09 方法
   ↓
 05 Case 02                       Pending
+  ├── Page 01 Workflow Context   Implemented
+  ├── Page 02 / Section 01       Implemented
+  ├── Page 02 / Section 02       Implemented
+  ├── Workflow 01–03 Detail      Implemented
+  ├── Page 03 Governance         Implemented
+  └── Page 03 后续章节           Pending
   ↓
 06 Summary                       Pending
   ↓
@@ -51,7 +57,10 @@ Case01 是当前完成度最高的案例，包含独立章节导航、九个内�
 | `/about/` | `src/app/about/page.tsx` | `AboutMePage` | Implemented | 工程经历路径、业务理解、产品优势 |
 | `/background/` | `src/app/background/page.tsx` | `EngineeringBackgroundPage` | Implemented | 工程经验 → 产品方法 → 数字产品能力映射 |
 | `/case01/` | `src/app/case01/page.tsx` | `PortfolioPage → Case01Page` | Implemented | 工程质量验收数字化案例，九章完整叙事 |
-| `/case02/` | `src/app/case02/page.tsx` | `PortfolioPage → ContentRenderer` | Pending | 仅有 Case Header 与深色占位模块，正式案例内容未实现 |
+| `/case02/` | `src/app/case02/page.tsx` | `PortfolioPage → Case02Page` | Pending | Page01、Page02 工作流总览与原位详情、Page03 AI可靠性治理已实现；后续章节未实现 |
+| `/case02/workflow-01/` | `src/app/case02/[workflowId]/page.tsx` | `WorkflowDetailPage` | Implemented | 研究任务规划、输入校验、任务拆解和结构化任务输出 |
+| `/case02/workflow-02/` | `src/app/case02/[workflowId]/page.tsx` | `WorkflowDetailPage` | Implemented | Evidence 治理、质量审查、人工评审、三类修订路由及 A/B/C 三类输出 |
+| `/case02/workflow-03/` | `src/app/case02/[workflowId]/page.tsx` | `WorkflowDetailPage` | Implemented | External AI 修订审计、返修循环及最终报告/指导语双输出 |
 | `/summary/` | `src/app/summary/page.tsx` | `PortfolioPage → ContentRenderer` | Pending | 路由可访问，只有 Summary 内容占位 |
 | `/contact/` | `src/app/contact/page.tsx` | `PortfolioPage → ContentRenderer` | Pending | 路由可访问，联系方式、简历与外部链接未配置 |
 
@@ -86,7 +95,9 @@ src/
 │   ├── about/page.tsx
 │   ├── background/page.tsx
 │   ├── case01/page.tsx
-│   ├── case02/page.tsx
+│   ├── case02/
+│   │   ├── page.tsx
+│   │   └── [workflowId]/page.tsx
 │   ├── summary/page.tsx
 │   └── contact/page.tsx
 ├── components/
@@ -95,6 +106,10 @@ src/
 │   │   ├── AboutMePage.tsx
 │   │   ├── EngineeringBackgroundPage.tsx
 │   │   ├── Case01Page.tsx
+│   │   ├── Case02Page.tsx
+│   │   ├── Case02ReliabilityGovernance.tsx
+│   │   ├── Case02ResearchWorkflow.tsx
+│   │   ├── Case02WorkflowDetailPanel.tsx
 │   │   └── PortfolioPage.tsx
 │   ├── sections/
 │   │   ├── HeroSection.tsx
@@ -133,6 +148,8 @@ App Router page
       ↓
 PortfolioPage(routeId)
       ├── case01 → Case01Page（专用九章渲染）
+      ├── case02 → Case02Page（Page01–03 专用视觉叙事）
+      ├── case02/workflow-01–03 → WorkflowDetailPage（二级详情视图）
       └── 其他通用路由
             ├── landing/profile/closing → HeroSection
             ├── case → CaseHeader
@@ -147,9 +164,15 @@ PortfolioPage(routeId)
 2. `src/content/loader.ts` 使用 Node `fs` 在构建期读取 `src/content/pages/*.md`。
 3. `gray-matter` 解析 YAML frontmatter；Markdown 正文作为 `body` 返回。
 4. 通用页面使用 `PortfolioPageContent` 与 `ContentRenderer`。
-5. Cover、About、Background 和 Case01 在基础内容类型之上定义页面专用字段。
+5. Cover、About、Background、Case01 和 Case02 在基础内容类型之上定义页面专用字段。
 6. Case01 的 `casePages` 数据由 `Case01Page.tsx` 的专用类型渲染；其通用 `sections` 当前为空。
-7. 当前无 CMS、数据库、API Route、Server Action 或运行时内容请求。
+7. Case02 Page02 Section02 总览数据位于 `case02.md`；点击工作流节点由客户端状态在当前架构区域原位切换详情，不改变路由或滚动位置。三个详情面板使用共享类型化数据，同时保留可分享的静态详情地址。
+8. Case02 Page03 由 `Case02ReliabilityGovernance.tsx` 直接维护静态内容与五种专用视觉模型，不依赖运行时数据。
+9. 当前无 CMS、数据库、API Route、Server Action 或运行时内容请求。
+
+三个 Workflow Detail 共用标题区、右侧说明栏与类型化详情数据，但主体信息架构不同：Workflow01 使用 Engine Console（Schema → Task Compilation Engine → Runtime Status → Artifact Dock）；Workflow02 使用 Human Control Input → Governance Flow → Governed Outputs；Workflow03 使用 Revision Context → Audit / Decision → Governed Outputs + Feedback Loop。详情视图不是同一模板的内容替换。
+
+Workflow01 的产品化视觉由 `Case02WorkflowDetailPanel.tsx` 内的 `WorkflowEngine`、`WorkflowModule`、`WorkflowStatus` 与 `ArtifactCard` 组成；它们把六个真实编号节点组织为一体化执行轨道，同时把输入和输出降为辅助层。Workflow02/03 继续使用符合各自治理逻辑的专用组件。
 
 `short` 与 `deep` 两个版本键已经配置，但目前使用相同的七个顶层路由。独立 Deep Dive 内容集合为 **Not Implemented**。
 
@@ -178,7 +201,7 @@ public/
     └── 方案与交互对比素材
 ```
 
-Case02 专属正式素材为 **Not Implemented**。
+Case02 Page01 的 8 个产品标识使用各产品官网提供的 favicon / app icon，并保存于 `public/assets/images/case02/icons/`，运行时不依赖外部图标服务；Page01 的流程节点、断裂连接、偏移曲线与治理层，Page02 的产品流程选择图、工作流总览和三个详情视图，以及 Page03 的门槛轨道、证据网络、推理半径、双轨状态与返修闭环，均由 React/CSS/SVG 原生绘制。后续页面专属图片或视频素材为 **Not Implemented**。
 
 ## 8. 部署配置与兼容性
 
@@ -237,14 +260,14 @@ GitHub Pages 与 Vercel 可以并存；若只保留 Vercel，可后续停用 Git
 
 ### Pending
 
-- Case02 正式案例内容、页面专用视觉与素材
+- Case02 Page03 之后的正式案例内容
 - Summary 最终总结内容
 - Contact 联系方式、简历下载和外部链接
 
 ### Not Implemented
 
 - 独立的 `deep` 版本页面集合
-- Case02 正式工作流、失败复盘与治理机制内容
+- Case02 失败复盘、运行证据与 Page03 后续治理机制页面
 - Case02 专属图片或视频素材
 - CMS、数据库、后台接口和动态鉴权
 - 线上表单提交或邮件发送
@@ -255,6 +278,14 @@ GitHub Pages 与 Vercel 可以并存；若只保留 Vercel，可后续停用 Git
 ## 10. 与旧 Phase1 架构文档的主要变化
 
 - Case01 已从“可扩展案例壳层”发展为专用九章完整案例页。
+- Case02 已从通用占位壳层升级为专用 Page01–03，完成产品流程语境、AI 竞品研究工作流与 AI可靠性治理叙事。
+- Page03 使用五种不同的信息架构分别表达治理门槛、证据溯源、推理边界、状态隔离和定向返修闭环。
+- 新增可复用详情面板与原位切换交互；总览中的 01/02/03 节点不再离开 `/case02/`。同时保留静态详情路由 `/case02/workflow-01/`、`/case02/workflow-02/`、`/case02/workflow-03/` 作为可分享入口。
+- Workflow01 详情采用“Workflow Engine ＞ Output Artifact ＞ Input Schema”的三级权重；旧流程图 DOM 已替换为 Engine Console、一体化模块轨道、Runtime Status 与 Artifact Dock。桌面显示六模块执行链，中小屏自适应为 3×2 / 2×3 模块网格，不再产生详情画布横向滚动；`research_scope` 是工作流 02 的必要输入。
+- 详情面板的 Sidebar 由 `Case02WorkflowDetailPanel` 统一管理收起状态。桌面端收起后保留 44px 恢复轨道与竖排“工作流 XX 简介”；被隐藏的详情内容不再参与布局高度计算。W01/W02/W03 的详情画布均以 1180px 为桌面基准宽度，收起侧栏后自动居中；响应式断点下自动恢复完整信息栏。
+- W01 的 Engine、运行状态和输出产物是三个独立层级：Engine 只包含六模块执行轨道；其后用绿色成功状态与红色失败状态分别对齐正常产出组和异常产出区，避免把状态误读为流程节点。
+- Workflow02 采用固定三层架构：轻量 Human Control 输入层、信息最强的 W02 治理主流程、双输出治理结果层。治理主流程在单一宽画布中保留事实证据、结构语义、人机评审与三路修订策略，并把 N1–N11 编号收纳在对应模块内部。
+- Workflow03 采用固定三层架构：外部修订上下文输入、W03 审计裁决主流程、双输出治理结果。C1–C9 保留真实审计与返修节点，通过 / 需返修分叉与显式回流线共同形成闭环，而不是压缩为线性节点列表。
 - 新增 Case01 固定侧栏导航和 `page04–page12` 内部锚点。
 - Cover、About、Background 已从通用内容接口升级为专用页面组件。
 - Case01 已完成验证、迭代、产品演进和项目沉淀内容，不再停留在 01–07 的早期说明。

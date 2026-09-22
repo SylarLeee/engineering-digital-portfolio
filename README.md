@@ -37,4 +37,4 @@ pnpm build
 
 Version page sets and route metadata are defined in `src/config/portfolio.config.ts`. Content lives in `src/content/pages/*.md`.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the complete Phase 1 handoff.
+See [docs/HANDOFF.md](docs/HANDOFF.md) to resume the current local project, preview, and delivery workflow. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the complete Phase 1 architecture.

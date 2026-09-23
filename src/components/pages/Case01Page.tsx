@@ -2,7 +2,7 @@ import { Fragment, type CSSProperties } from "react";
 import Image from "next/image";
 import { ArrowRight, Check, Minus } from "lucide-react";
 import { CaseHeader } from "@/components/case/CaseHeader";
-import { Case01SideNav } from "@/components/case/Case01SideNav";
+import { CaseSideNav } from "@/components/case/CaseSideNav";
 import { CaseNavigator } from "@/components/case/CaseNavigator";
 import { Container } from "@/components/layout/Container";
 import { Lightbox } from "@/components/gallery/Lightbox";
@@ -1002,7 +1002,7 @@ export function Case01Page({ showCaseNavigator = true }: { showCaseNavigator?: b
   return (
     <div className="case01-page">
       <CaseHeader project={page.title} background={page.subtitle} status={page.status} />
-      <Case01SideNav items={sideNavigation} />
+      <CaseSideNav title="CASE01" items={sideNavigation} />
       <div className="case01-reading-flow">
         <Page04 page={page04} />
         <Page05 page={page05} />

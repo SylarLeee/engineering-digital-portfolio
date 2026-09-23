@@ -116,6 +116,7 @@ src/
 │   │   └── ContentRenderer.tsx
 │   ├── case/
 │   │   ├── CaseHeader.tsx
+│   │   ├── CaseSideNav.tsx
 │   │   ├── Case01SideNav.tsx
 │   │   ├── CaseNavigator.tsx
 │   │   ├── ComparisonBlock.tsx
@@ -181,7 +182,7 @@ Workflow01 的产品化视觉由 `Case02WorkflowDetailPanel.tsx` 内的 `Workflo
 - 全局设计令牌与主要页面样式位于 `src/app/globals.css`。
 - 当前视觉基调为白色/浅灰背景、深蓝黑文字与青绿色强调。
 - Cover、About、Background、Case01 使用页面专用布局。
-- Case01 支持固定侧栏章节导航、卡片化信息、深色总结模块及本地图片资产。
+- Case01 与 Case02 共用 `CaseSideNav` 固定侧栏导航、滚动 Active 和半透明容器交互；Case01 同时包含卡片化信息、深色总结模块及本地图片资产。
 - `Lightbox` 提供图片放大查看。
 - 已包含桌面与移动端响应式规则、`prefers-reduced-motion` 适配和打印样式。
 - 大量动画、复杂 Dashboard 和运行时数据可视化均未引入。
@@ -279,14 +280,14 @@ GitHub Pages 与 Vercel 可以并存；若只保留 Vercel，可后续停用 Git
 
 - Case01 已从“可扩展案例壳层”发展为专用九章完整案例页。
 - Case02 已从通用占位壳层升级为专用 Page01–03，完成产品流程语境、AI 竞品研究工作流与 AI可靠性治理叙事。
-- Page03 使用五种不同的信息架构分别表达治理门槛、证据溯源、推理边界、状态隔离和定向返修闭环。
+- Case02 Page01–03 以固定 Page Label 和 `.case02-page` Typography Tokens 统一 Hero / Section / Module / Card / Body / 英文注释层级。Page03 Hero 先以轻量 W02/W03 节点切片交代机制来源，再抽象出“内容验证 → 状态裁决 → 正式状态 / 修订回流”，明确这是对 Page02 工作流实践的可靠性治理探索。正文由无编号 Governance Overview 与四个编号机制组成；Overview 不再把 Revision 视为通过路径上的第四道 Gate，而以“内容验证 → 状态裁决 → PASS / REJECT”为主结构，REJECT 进入修订治理并形成 New Candidate 回流验证。六个抽象机制卡片通过内部 Hover / Focus 状态映射到 Page02 的 W02/W03 真实节点切片。
 - 新增可复用详情面板与原位切换交互；总览中的 01/02/03 节点不再离开 `/case02/`。同时保留静态详情路由 `/case02/workflow-01/`、`/case02/workflow-02/`、`/case02/workflow-03/` 作为可分享入口。
 - Workflow01 详情采用“Workflow Engine ＞ Output Artifact ＞ Input Schema”的三级权重；旧流程图 DOM 已替换为 Engine Console、一体化模块轨道、Runtime Status 与 Artifact Dock。桌面显示六模块执行链，中小屏自适应为 3×2 / 2×3 模块网格，不再产生详情画布横向滚动；`research_scope` 是工作流 02 的必要输入。
 - 详情面板的 Sidebar 由 `Case02WorkflowDetailPanel` 统一管理收起状态。桌面端收起后保留 44px 恢复轨道与竖排“工作流 XX 简介”；被隐藏的详情内容不再参与布局高度计算。W01/W02/W03 的详情画布均以 1180px 为桌面基准宽度，收起侧栏后自动居中；响应式断点下自动恢复完整信息栏。
 - W01 的 Engine、运行状态和输出产物是三个独立层级：Engine 只包含六模块执行轨道；其后用绿色成功状态与红色失败状态分别对齐正常产出组和异常产出区，避免把状态误读为流程节点。
 - Workflow02 采用固定三层架构：轻量 Human Control 输入层、信息最强的 W02 治理主流程、双输出治理结果层。治理主流程在单一宽画布中保留事实证据、结构语义、人机评审与三路修订策略，并把 N1–N11 编号收纳在对应模块内部。
 - Workflow03 采用固定三层架构：外部修订上下文输入、W03 审计裁决主流程、双输出治理结果。C1–C9 保留真实审计与返修节点，通过 / 需返修分叉与显式回流线共同形成闭环，而不是压缩为线性节点列表。
-- 新增 Case01 固定侧栏导航和 `page04–page12` 内部锚点。
+- 新增共享 `CaseSideNav`；Case01 使用 `page04–page12` 内部锚点，Case02 使用 `case02-page01–03` 页面锚点。
 - Cover、About、Background 已从通用内容接口升级为专用页面组件。
 - Case01 已完成验证、迭代、产品演进和项目沉淀内容，不再停留在 01–07 的早期说明。
 - 当前架构是“专用完成页 + 通用占位页”的混合模式，不再是所有页面完全依赖 `ContentRenderer`。

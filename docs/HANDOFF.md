@@ -160,6 +160,9 @@ pnpm build
 
 ### Case02 Page01–03
 
+- Page01–03 使用固定页面短标题：`Page01｜协作挑战`、`Page02｜流程架构`、`Page03｜治理机制`。短标题作为 Page Level Label，原有 Hero 标题继续承担叙事视觉中心。
+- Case01 / Case02 共用 `CaseSideNav`：Case01 保留九章导航，Case02 使用协作挑战 / 流程架构 / 治理机制三项导航；两者共用滚动侦测与 Active 状态。导航默认只降低背景、边框和阴影强度，文字与当前状态保持完整可读，Hover / Focus 时恢复完整容器背景。
+- Case02 在 `.case02-page` 定义统一 Typography Tokens，Page Label、Hero、Section、Module、Card、Body 与英文注释按共同层级消费，响应式下按比例缩放。
 - 完成 AI 能力覆盖产品流程的五阶段地图。
 - 使用本地保存的官网图标：Perplexity、AlphaSense、Dovetail、Figma AI、Galileo/Stitch、Uizard、Maze、UserTesting。
 - Section02 左侧改为五节点能力链：Perplexity → Dovetail → Figma AI → Uizard → Maze。
@@ -189,18 +192,20 @@ pnpm build
 - 三个 Workflow Detail 共用的右侧详情栏支持桌面端向右收起与恢复；收起后 W02/W03 主画布使用完整宽度，W01 保持原有展示宽度并在扩展后的主区域居中。1100px 以下保留完整详情内容，不启用侧栏收起。
 - Workflow02 主展示区域已按“三层治理系统”重建：顶部为结果确认、用户反馈、修订验收三类人类控制输入；中部为 AI 研究结果 → 事实证据治理 → 结构语义审计 → 人机评审 → 三路修订策略；底部并列标准化报告与修订指导语，并明确保留 Workflow03 资料包桥梁。N1–N11 仍在模块内部保留，未通过概念化简图隐藏复杂度。
 - Workflow03 主展示区域已按“三层修订治理系统”重建：顶部汇聚 External AI 修订结果、原始治理状态与返修上下文；中部以 C1–C4 完成解析、边界审计、语义审计与裁决，再分流至 C5/C6 发布路径或 C8/C9 返修路径；底部并列标准化报告与 `revision_guidance`，并用 `External AI → 新版本 → C1` 明确表现闭环。
-- Page03「AI可靠性治理」已完成长页面叙事，不使用 Tab、折叠或轮播，依次展示可信状态门槛、证据治理、边界治理、状态治理与修订治理。
-- Page03 Section01 使用 AI Output → Evidence → Scope → State → Revision → Trusted State 的治理门槛轨道。
-- Page03 Section02 使用 Evidence Pool → Fact → Inference 的可追溯网络，并明确阻止无证据路径的 Inference X 升级。
-- Page03 Section03 使用推理半径表达 Research Scope，将合理推断、接近边界与越界结论分层。
-- Page03 Section04 使用 Baseline / Candidate 双轨模型，表达 Candidate 通过审计前不能污染已验证状态。
-- Page03 Section05 使用 Human controls + AI executes 的定向返修闭环，并以四类可信条件汇聚至 Trusted / Publishable Output。
+- Page03「从工作流实践到可靠性治理探索」已完成长页面叙事，不使用 Tab、折叠或轮播；先展示无编号 Governance Overview，再依次展示 01 证据治理、02 边界治理、03 状态治理、04 修订治理。
+- Page03 Hero 明确承接 Page02：左侧说明从工作流实践提炼可靠性机制的页面定位，右侧以轻量 W02/W03 节点切片作为来源，并将其抽象为“内容验证 → 状态裁决 → 正式状态 / 修订回流”。中文是主叙事，英文仅作为术语注释。
+- Page03 Governance Overview 使用 Candidate → 内容验证（证据验证 + 边界控制）→ 状态裁决 → PASS / REJECT；REJECT 进入修订治理、形成 New Candidate 并重新验证。
+- Page03 01 证据治理使用 Evidence Pool → Fact → Inference 的可追溯网络，并明确阻止无证据路径的 Inference X 升级。
+- Page03 02 边界治理使用推理半径表达 Research Scope，将合理推断、接近边界与越界结论分层。
+- Page03 03 状态治理使用 Baseline / Candidate 双轨模型，表达 Candidate 通过审计前不能污染已验证状态。
+- Page03 04 修订治理使用 Human controls + AI executes 的定向返修闭环，并以四类可信条件汇聚至 Trusted / Publishable Output。
 - Case02 Page03 之后的正式章节仍为 Pending。
 
 ## 7. 关键文件导航
 
 ```text
 src\app\globals.css                       全站及 Case01/Case02 主要样式
+src\components\case\CaseSideNav.tsx    Case01 / Case02 共用悬浮导航与滚动侦测
 src\components\pages\PortfolioPage.tsx  顶层页面渲染分流
 src\components\pages\Case01Page.tsx     Case01 九章专用渲染
 src\components\pages\Case02Page.tsx     Case02 Page01–03 专用渲染
@@ -363,6 +368,31 @@ pnpm build
 - W01 的运行结果从 Engine 内部拆出为两条互斥状态：绿色 `PASS` 对齐 `task_book + research_scope`，红色 `FAILED` 对齐 `error_messages`，并分别以向下连接指示对应产出。
 - “点击节点，在本区域查看详细设计”及总览图例只在 Workflow 总览显示，进入任一详情后不渲染。
 - 本轮已实际验证 W01/W02/W03 切换、简介栏展开/收起、收起前后高度、W01 状态与产出横向对齐；浏览器错误日志为空。
+
+### 2026-09-23 Page03 Section01 治理逻辑重构
+
+- 仅重构 Page03 Section01「从 AI输出 到 可信状态」的信息图；Hero、Section02–05、Section 标题结构和页面宽度保持不变。
+- 删除 `Evidence Gate → Scope Gate → State Gate → Revision Gate → Trusted State` 的错误线性关系，改为 `Candidate → 内容验证（证据验证 + 边界控制）→ 状态裁决`，并在裁决后分出 `PASS → 可信状态` 与 `REJECT → 修订治理`。
+- 修订治理明确输出 `New Candidate`，通过橙色回流线重新进入内容验证，不再直接连接可信状态。
+- AI生成结果、证据验证、边界控制、状态裁决、可信状态、修订治理六张卡片均支持卡片内部 Hover / 键盘 Focus 切换，显示对应的 W02/W03 mini workflow slice；没有 Tooltip、弹窗或布局位移。
+- 中文机制名为主信息，英文术语降为辅助层；已逐张验证六个交互状态，浏览器错误日志为空。
+
+### 2026-09-23 Page03 Hero 叙事重构
+
+- 仅替换 Page03 Hero 的标题、说明和右侧信息图；Section01–05、页面宽度、纵向结构与全站基础视觉语言保持不变。
+- 主标题改为“从工作流实践到可靠性治理探索”，明确 Page03 是对 Page02 W02/W03 的总结、抽象与机制提炼，而不是另起一套完整治理理论。
+- 删除 `AI Output → Governance → Reliable Insight` 的强结论图，改为 `W02/W03 来源切片 → 机制提炼 → 内容验证 → 状态裁决 → 正式状态 / 修订治理`。
+- 修订路径明确形成 `New Candidate → 重新验证` 回路；证据验证与边界控制归入内容验证，状态裁决负责正式状态升级。
+- Hero 全部主要叙事以中文优先，英文只保留为较弱的专业术语注释；构建与浏览器渲染检查通过。
+
+### 2026-09-23 Case02 跨 Page 层级统一
+
+- Case02 Page01–03 新增固定短标题“协作挑战 / 流程架构 / 治理机制”，作为弱于 Hero 的 Page Level Label。
+- 原 Case01 导航逻辑抽为共享 `CaseSideNav`，Case01 与 Case02 共用位置、尺寸、滚动 Active、动画和响应式规则；Case02 导航锚点为 `case02-page01`、`case02-page02`、`case02-page03`。
+- 两套导航默认只使用约 50% 强度的半透明容器背景、边框和阴影，文字、编号与 Active 指示不做整体透明；Hover / Focus 在 220ms 内恢复完整背景。
+- Case02 新增统一 Typography Tokens，并让 Page01 Hero、Page02 Hero、Page03 Hero、Section 标题、Module 标题、正文和英文注释按共同层级消费。
+- Page03“从 AI输出 到 可信状态”改为无编号 Governance Overview，并用独立容器、机制地图和向下引导与后续机制区分；后续机制重新编号为 01 证据、02 边界、03 状态、04 修订。
+- 已验证移动端 Page Label / Overview / 编号顺序，以及桌面端共享导航的 01 Active 状态和正文避让；TypeScript、ESLint、生产构建均通过。
 
 2026-09-17 交接整理时：
 

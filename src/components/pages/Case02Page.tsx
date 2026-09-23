@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowDown, ArrowRight, BarChart3, Bot, Box, CircleCheck, ClipboardCheck, Code2, Crosshair, FileCheck2, FileText, Lightbulb, ListTodo, PencilRuler, RefreshCw, ShieldCheck, Users, TriangleAlert } from "lucide-react";
 import { CaseHeader } from "@/components/case/CaseHeader";
 import { CaseNavigator } from "@/components/case/CaseNavigator";
+import { CaseSideNav } from "@/components/case/CaseSideNav";
 import { Container } from "@/components/layout/Container";
 import { Case02ResearchWorkflow, type ResearchWorkflowContent } from "@/components/pages/Case02ResearchWorkflow";
 import { Case02ReliabilityGovernance } from "@/components/pages/Case02ReliabilityGovernance";
@@ -409,17 +410,22 @@ function EntryPointSelection({ page }: { page: Case02Content }) {
 
 export function Case02Page({ showCaseNavigator = true }: { showCaseNavigator?: boolean }) {
   const page = getPageContent("case02") as Case02Content;
+  const sideNavigation = [
+    { id: "case02-page01", index: "01", label: "协作挑战" },
+    { id: "case02-page02", index: "02", label: "流程架构" },
+    { id: "case02-page03", index: "03", label: "治理机制" },
+  ];
   return (
     <div className="case02-page">
-      <CaseHeader project={page.title} background={page.subtitle} status={page.status} />
-      <main className="case02-page01">
-        <Container><p className="case02-page-label">01 / {page.pageLabel}</p></Container>
+      <CaseHeader project={page.title} pageLabel="Page01｜协作挑战" background={page.subtitle} status={page.status} />
+      <CaseSideNav title="CASE02" items={sideNavigation} />
+      <main id="case02-page01" className="case02-page01">
         <Container><EcosystemMap page={page} /><Problems page={page} /><Governance page={page} /><Exploration page={page} /></Container>
       </main>
-      <main className="case02-page02">
-        <Container><EntryPointSelection page={page} /><Case02ResearchWorkflow workflow={page.researchWorkflow} /></Container>
+      <main id="case02-page02" className="case02-page02">
+        <Container><p className="case-page-level-label case02-page-level-label">Page02｜流程架构</p><EntryPointSelection page={page} /><Case02ResearchWorkflow workflow={page.researchWorkflow} /></Container>
       </main>
-      <main className="case02-page03">
+      <main id="case02-page03" className="case02-page03">
         <Container><Case02ReliabilityGovernance /></Container>
       </main>
       {showCaseNavigator && <CaseNavigator currentId="case02" />}

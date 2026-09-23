@@ -129,8 +129,8 @@ pnpm build
 | Workflow 01 | `/case02/workflow-01/` | Implemented | 竞品研究任务规划详情 |
 | Workflow 02 | `/case02/workflow-02/` | Implemented | 研究结果治理、人工评审、修订路由与 A/B/C 输出 |
 | Workflow 03 | `/case02/workflow-03/` | Implemented | External AI 修订审计、返修闭环与 A/B 输出 |
-| Summary | `/summary/` | Pending | 只有内容占位 |
-| Contact | `/contact/` | Pending | 联系方式、简历和外部链接未配置 |
+| Summary | `/summary/` | Implemented | 工程经验 → 系统化问题解决 → AI 时代人机协作的完整能力总结页 |
+| Contact | `/contact/` | Implemented | Page15 求职转化页：目标方向、意向城市、到岗时间、Email 与 Phone / WeChat |
 
 ### Case01 九章
 
@@ -153,6 +153,19 @@ pnpm build
 ### Case01
 
 - 统一章节短标题为：背景、问题、机会、方案、设计、验证、迭代、演进、方法。
+
+### Summary
+
+- 新增专用 `SummaryPage`，以“理解真实工程 → 用系统思维解决复杂问题 → 探索 AI 时代的人机协作”形成递进叙事。
+- 使用 Case01 已有三张真实施工现场素材作为工程经验凭证，没有新增或生成工程照片。
+- 用简化验收流程、五项系统化工作方式、Case01 / Case02 证据卡和“人 ↔ AI ↔ 系统”协作模型完成能力抽象，避免重复完整案例过程。
+- 页面底部明确职业方向为工程数字化产品、行业产品与工程 BA。
+
+### Contact
+
+- 新增专用 `ContactPage`，以单屏左右结构完成从能力认知到求职联系的最终转化。
+- 明确目标方向、意向城市和“可随时到岗”，并提供 `mailto:` Email CTA 与 `tel:` 手机入口；手机号同时标注为 Phone / WeChat。
+- 页面严格不包含简历下载、GitHub、LinkedIn、联系表单、二维码或未经确认的个人信息，并继续复用全站 Header / Footer。
 - 完成 06 测试验证、07 测试驱动迭代、08 产品演进规划、09 项目方法沉淀。
 - 07 使用用户提供的产品迭代总览素材，并增加“产品方法沉淀”能力模块。
 - 08 呈现当前 MVP、执行工具到质量管理平台的能力演进与路线总结。
@@ -251,10 +264,10 @@ public\assets\images\case02\icons\      Case02 官网图标
 - 下一轮优先校验三个详情视图在 1280–1440px 笔记本屏幕上的信息密度，并补充真实运行证据时严格区分设计方案与已验证结果。
 - 继续保持“AI能力 → Workflow → 系统治理”的叙事，不把页面退化为工具罗列。
 
-### P2：补齐收尾页面
+### P2：收尾页面复核
 
-- Summary：补最终总结内容与视觉。
-- Contact：配置真实联系方式、简历下载和外部链接。
+- Summary 已完成；后续只需随整体作品集视觉复核做小幅一致性调整。
+- Contact 已完成；后续只需随最终投递版本检查邮箱和手机号的可用性。
 - 确认 `short` 与 `deep` 是否需要真正拆分；当前两者使用相同路由集合。
 
 ## 10. 视觉与内容约束

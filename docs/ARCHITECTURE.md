@@ -1,6 +1,6 @@
 # Engineering Digital Portfolio V2.0 — Phase 1 架构与交付状态
 
-> 更新日期：2026-09-17  
+> 更新日期：2026-09-23  
 > 状态依据：当前本地源码  
 > 项目阶段：Phase 1 进行中，约 60% 页面开发完成
 
@@ -42,9 +42,9 @@
   ├── Page 03 Governance         Implemented
   └── Page 03 后续章节           Pending
   ↓
-06 Summary                       Pending
+06 Summary                       Implemented
   ↓
-07 Contact                       Pending
+07 Contact                       Implemented
 ```
 
 Case01 是当前完成度最高的案例，包含独立章节导航、九个内部锚点、图片放大、响应式布局以及打印样式。
@@ -61,8 +61,8 @@ Case01 是当前完成度最高的案例，包含独立章节导航、九个内�
 | `/case02/workflow-01/` | `src/app/case02/[workflowId]/page.tsx` | `WorkflowDetailPage` | Implemented | 研究任务规划、输入校验、任务拆解和结构化任务输出 |
 | `/case02/workflow-02/` | `src/app/case02/[workflowId]/page.tsx` | `WorkflowDetailPage` | Implemented | Evidence 治理、质量审查、人工评审、三类修订路由及 A/B/C 三类输出 |
 | `/case02/workflow-03/` | `src/app/case02/[workflowId]/page.tsx` | `WorkflowDetailPage` | Implemented | External AI 修订审计、返修循环及最终报告/指导语双输出 |
-| `/summary/` | `src/app/summary/page.tsx` | `PortfolioPage → ContentRenderer` | Pending | 路由可访问，只有 Summary 内容占位 |
-| `/contact/` | `src/app/contact/page.tsx` | `PortfolioPage → ContentRenderer` | Pending | 路由可访问，联系方式、简历与外部链接未配置 |
+| `/summary/` | `src/app/summary/page.tsx` | `PortfolioPage → SummaryPage` | Implemented | 工程现场、系统思维与人机协作的递进式能力总结 |
+| `/contact/` | `src/app/contact/page.tsx` | `PortfolioPage → ContactPage` | Implemented | Page15 单屏求职转化页，含 Open to Work、Email 与 Phone / WeChat |
 
 所有路由均由 Next.js App Router 在构建期生成静态 HTML。
 
@@ -110,6 +110,8 @@ src/
 │   │   ├── Case02ReliabilityGovernance.tsx
 │   │   ├── Case02ResearchWorkflow.tsx
 │   │   ├── Case02WorkflowDetailPanel.tsx
+│   │   ├── SummaryPage.tsx
+│   │   ├── ContactPage.tsx
 │   │   └── PortfolioPage.tsx
 │   ├── sections/
 │   │   ├── HeroSection.tsx
@@ -262,8 +264,6 @@ GitHub Pages 与 Vercel 可以并存；若只保留 Vercel，可后续停用 Git
 ### Pending
 
 - Case02 Page03 之后的正式案例内容
-- Summary 最终总结内容
-- Contact 联系方式、简历下载和外部链接
 
 ### Not Implemented
 
@@ -289,6 +289,8 @@ GitHub Pages 与 Vercel 可以并存；若只保留 Vercel，可后续停用 Git
 - Workflow03 采用固定三层架构：外部修订上下文输入、W03 审计裁决主流程、双输出治理结果。C1–C9 保留真实审计与返修节点，通过 / 需返修分叉与显式回流线共同形成闭环，而不是压缩为线性节点列表。
 - 新增共享 `CaseSideNav`；Case01 使用 `page04–page12` 内部锚点，Case02 使用 `case02-page01–03` 页面锚点。
 - Cover、About、Background 已从通用内容接口升级为专用页面组件。
+- Summary 已从通用内容占位升级为专用能力总结页；以 Case01 真实工程素材和 Case01 / Case02 精简证据卡支撑“真实工程 → 系统思维 → 人机协作”的统一职业画像。
+- Contact 已从通用占位升级为专用 Page15 求职转化页；复用全局 Header / Footer，在单屏左右结构中呈现职业方向、城市、到岗状态与 Email / Phone / WeChat，不引入简历下载或额外社交链接。
 - Case01 已完成验证、迭代、产品演进和项目沉淀内容，不再停留在 01–07 的早期说明。
 - 当前架构是“专用完成页 + 通用占位页”的混合模式，不再是所有页面完全依赖 `ContentRenderer`。
 - `short` 与 `deep` 目前没有内容差异；旧文档中的 Phase 2 扩展描述尚未实现。

@@ -27,8 +27,7 @@ export type ResearchWorkflowContent = {
   output: { title: string; note: string };
   paths: {
     direct: { index: string; title: string; condition: string };
-    once: { index: string; title: string; condition: string };
-    loop: { index: string; title: string; condition: string; loopNote: string };
+    external: { index: string; title: string; condition: string; loopNote: string };
   };
   conclusion: string;
   next: string;
@@ -55,6 +54,15 @@ function ReportOutput({ title, note }: { title: string; note: string }) {
   return <article className="case02-report-output"><FileOutput size={25} aria-hidden="true" /><div><h3>{title}</h3><p>{note}</p></div></article>;
 }
 
+function RevisionAgentCard() {
+  return (
+    <article className="case02-revision-agent">
+      <Bot size={23} aria-hidden="true" />
+      <div><h3>External AI 再修订</h3><ul><li>针对问题优化</li><li>调整内容与结论</li></ul></div>
+    </article>
+  );
+}
+
 export function Case02ResearchWorkflow({ workflow }: { workflow: ResearchWorkflowContent }) {
   const [activeWorkflow, setActiveWorkflow] = useState<WorkflowId | null>(null);
   const activeDetail = activeWorkflow ? workflowDetails[activeWorkflow] : null;
@@ -66,7 +74,7 @@ export function Case02ResearchWorkflow({ workflow }: { workflow: ResearchWorkflo
         {!activeDetail && (
           <div className="case02-workflow-guide">
             <span><MousePointerClick size={18} aria-hidden="true" />点击节点，在本区域查看详细设计</span>
-            <div><i className="case02-legend-main" />主流程<i className="case02-legend-branch" />分支流程<RefreshCw size={17} aria-hidden="true" />循环优化</div>
+            <div><i className="case02-legend-main" />主流程<i className="case02-legend-branch" />分支流程<RefreshCw size={17} aria-hidden="true" />返修回流</div>
           </div>
         )}
       </header>
@@ -90,7 +98,7 @@ export function Case02ResearchWorkflow({ workflow }: { workflow: ResearchWorkflo
       ) : (
         <>
           <div className="case02-workflow-architecture-scroll">
-            <div className="case02-workflow-architecture" aria-label="AI竞品研究由研究需求输入、研究规划、AI Agent、输出治理和三条治理路径组成">
+            <div className="case02-workflow-architecture" aria-label="AI竞品研究由研究需求输入、研究规划、AI Agent、输出治理和直接输出、外部修订两条路径组成">
               <article className="case02-workflow-input"><FileText size={29} aria-hidden="true" /><h3>{workflow.input.title}</h3><ul>{workflow.input.details.map((detail) => <li key={detail}>{detail}</li>)}</ul></article>
               <ArrowRight className="case02-architecture-arrow" size={23} aria-hidden="true" />
               <WorkflowNodeCard node={workflow.workflow01} workflowId="workflow-01" onSelect={setActiveWorkflow} />
@@ -98,12 +106,24 @@ export function Case02ResearchWorkflow({ workflow }: { workflow: ResearchWorkflo
               <AgentCard title={workflow.agent.title} details={workflow.agent.details} />
               <ArrowRight className="case02-architecture-arrow" size={23} aria-hidden="true" />
               <WorkflowNodeCard node={workflow.workflow02} workflowId="workflow-02" onSelect={setActiveWorkflow} />
-              <div className="case02-branch-origin" aria-hidden="true"><i /><i /><i /></div>
+              <div className="case02-branch-origin" aria-hidden="true"><i /><i /></div>
 
               <div className="case02-governance-paths">
                 <section className="case02-governance-path case02-governance-path--direct"><header><span>路径 {workflow.paths.direct.index}</span><h3>{workflow.paths.direct.title}</h3><p>{workflow.paths.direct.condition}</p></header><div className="case02-direct-line" aria-hidden="true"><i /></div><ReportOutput title={workflow.output.title} note={workflow.output.note} /></section>
-                <section className="case02-governance-path case02-governance-path--once"><header><span>路径 {workflow.paths.once.index}</span><h3>{workflow.paths.once.title}</h3><p>{workflow.paths.once.condition}</p></header><AgentCard title={workflow.optimizationAgent.title} details={workflow.optimizationAgent.details} compact /><ArrowRight className="case02-path-arrow" size={20} aria-hidden="true" /><WorkflowNodeCard node={workflow.workflow03} workflowId="workflow-03" onSelect={setActiveWorkflow} compact /><ArrowRight className="case02-path-arrow" size={20} aria-hidden="true" /><ReportOutput title={workflow.output.title} note={workflow.output.note} /></section>
-                <section className="case02-governance-path case02-governance-path--loop"><header><span>路径 {workflow.paths.loop.index}</span><h3>{workflow.paths.loop.title}</h3><p>{workflow.paths.loop.condition}</p></header><div className="case02-loop-sequence"><AgentCard title={workflow.optimizationAgent.title} details={workflow.optimizationAgent.details} compact /><ArrowRight className="case02-path-arrow" size={20} aria-hidden="true" /><WorkflowNodeCard node={workflow.workflow03} workflowId="workflow-03" onSelect={setActiveWorkflow} compact /><ArrowRight className="case02-path-arrow" size={20} aria-hidden="true" /><span className="case02-loop-ellipsis">…</span><ArrowRight className="case02-path-arrow" size={20} aria-hidden="true" /><ReportOutput title={workflow.output.title} note={workflow.output.note} /><div className="case02-loop-return"><RefreshCw size={16} aria-hidden="true" /><span>{workflow.paths.loop.loopNote}</span></div></div></section>
+                <section className="case02-governance-path case02-governance-path--external">
+                  <header><span>路径 {workflow.paths.external.index}</span><h3>{workflow.paths.external.title}</h3><p>{workflow.paths.external.condition}</p></header>
+                  <div className="case02-external-route">
+                    <AgentCard title={workflow.optimizationAgent.title} details={workflow.optimizationAgent.details} compact />
+                    <ArrowRight className="case02-path-arrow" size={20} aria-hidden="true" />
+                    <WorkflowNodeCard node={workflow.workflow03} workflowId="workflow-03" onSelect={setActiveWorkflow} compact />
+                    <div className="case02-route-decision">
+                      <span>结果判断</span>
+                      <div className="case02-route-result case02-route-result--pass"><b>通过</b><i aria-hidden="true" /><ReportOutput title={workflow.output.title} note={workflow.output.note} /></div>
+                      <div className="case02-route-result case02-route-result--revise"><b>未通过</b><i aria-hidden="true" /><RevisionAgentCard /></div>
+                    </div>
+                    <div className="case02-external-loop" aria-label={workflow.paths.external.loopNote}><RefreshCw size={16} aria-hidden="true" /><span>{workflow.paths.external.loopNote}</span></div>
+                  </div>
+                </section>
               </div>
             </div>
           </div>

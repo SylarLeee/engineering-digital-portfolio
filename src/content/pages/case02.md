@@ -257,12 +257,12 @@ researchWorkflow:
   workflow03:
     index: "03"
     label: 工作流 03
-    title: 结果整合
-    details: [结果整合, 报告封装]
-    role: 将优化结果封装为标准化研究报告。
+    title: 修订治理
+    details: [结果整合, 报告封装, 质量检查]
+    role: 对 External AI 修订结果进行审计、裁决与闭环治理。
     href: /case02/workflow-03/
   optimizationAgent:
-    title: AI Agent 优化修订
+    title: External AI 优化修订
     details: [问题修订, 内容校准]
   output:
     title: 标准化报告输出
@@ -272,15 +272,11 @@ researchWorkflow:
       index: "1"
       title: 直接输出
       condition: 当结果通过过程检查且满足要求时
-    once:
+    external:
       index: "2"
-      title: 一次优化
-      condition: 当发现问题但可通过一次优化解决时
-    loop:
-      index: "3"
-      title: 循环优化
-      condition: 当问题较复杂，需要多轮迭代时
-      loopNote: 可根据需要循环多轮
+      title: 外部修订
+      condition: 当结果需要复杂修订时，进入 External AI 修订与工作流03治理流程
+      loopNote: 未通过则继续下一轮修订
   conclusion: 通过在产品流程中选择“竞品分析”作为探索起点，我们构建了一套可治理的 AI 协作工作流，能够在不同的输出状态下采取相应的治理策略，最终封装产出标准化的研究报告。
   next: 下一步：深入了解每个工作流的设计与治理机制
 sections: []
